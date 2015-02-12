@@ -1,0 +1,24 @@
+<h1>Tasks</h1>
+
+<table border="1px">
+  <thead>
+  <tr>
+    <td>ID</td>
+    <td>NAME</td>
+    <td>OWNER</td>
+    <td>URL</td>
+    <td>PRIORITY</td>
+    <td>SUSPENDED</td>
+  </tr>
+  </thead>
+  <% for task in tasks %>
+      <tr>
+        <td><%= task.id %></td>
+        <td><%= task.name %></td>
+        <td><%= task.owner %></td>
+        <td><%= task.url %></td>
+        <td><%= task.priority %></td>
+        <td><%= task.suspended %></td>
+      </tr>
+  <% end %>
+</table>

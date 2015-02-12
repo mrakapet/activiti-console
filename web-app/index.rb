@@ -14,3 +14,7 @@ end
 get '/process-definitions' do
   erb :process_definitions, :locals => { :process_definitions => get_process_definitions}
 end
+
+get '/tasks' do
+  erb :tasks, :locals => { :tasks => get_tasks }
+end

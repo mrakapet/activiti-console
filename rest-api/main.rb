@@ -3,6 +3,7 @@ require 'json'
 
 require_relative 'entities/deployment'
 require_relative 'entities/process_definition'
+require_relative 'entities/task'
 
 require 'awesome_print'
 
@@ -15,6 +16,7 @@ PASSWORD = 'kermit'
 
 DEPLOYMENTS_URI = 'repository/deployments'
 PROCESS_DEFINITIONS_URI = 'repository/process-definitions'
+TASKS_URI = 'runtime/tasks'
 
 def create_url(resource_url = '', query_params = {})
   uri = URI("http://#{HOST}:#{PORT}/#{API_PATH}/#{resource_url}")
@@ -49,6 +51,12 @@ def get_process_definitions
   ProcessDefinition.parse_all(res.body['data'])
 end
 
+def get_tasks
+  res = do_http_get(TASKS_URI)
+  Task.parse_all(res.body['data'])
+end
 
-ap get_deployments
-ap get_process_definitions
+
+# ap get_deployments
+# ap get_process_definitions
+ap get_tasks
