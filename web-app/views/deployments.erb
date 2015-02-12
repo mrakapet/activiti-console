@@ -1,0 +1,24 @@
+<h1>Deployments!!!</h1>
+
+<table border="1px">
+  <thead>
+    <tr>
+      <td>ID</td>
+      <td>NAME</td>
+      <td>TIME</td>
+      <td>CATEGORY</td>
+      <td>URL</td>
+      <td>TENANT ID</td>
+    </tr>
+  </thead>
+  <% for dep in deployments %>
+    <tr>
+      <td><%= dep.id %></td>
+      <td><%= dep.name %></td>
+      <td><%= dep.deployment_time %></td>
+      <td><%= dep.category %></td>
+      <td><%= dep.url %></td>
+      <td><%= dep.tenant_id %></td>
+    </tr>
+  <% end %>
+</table>
