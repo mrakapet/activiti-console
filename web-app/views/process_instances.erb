@@ -1,0 +1,26 @@
+<h1>Process instances</h1>
+
+<table border="1px">
+  <thead>
+  <tr>
+    <td>ID</td>
+    <td>URL</td>
+    <td>BUSINESS KEY</td>
+    <td>SUSPENDED</td>
+    <td>PROCESS DEFINITION ID</td>
+    <td>ACTIVITY ID</td>
+    <td>TENANT ID</td>
+  </tr>
+  </thead>
+  <% for pi in process_instances %>
+      <tr>
+        <td><%= pi.id %></td>
+        <td><%= pi.url %></td>
+        <td><%= pi.business_key %></td>
+        <td><%= pi.suspended %></td>
+        <td><%= pi.process_definition_url %></td>
+        <td><%= pi.activity_id %></td>
+        <td><%= pi.tenant_id %></td>
+      </tr>
+  <% end %>
+</table>

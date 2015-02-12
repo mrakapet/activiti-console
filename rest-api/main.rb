@@ -5,6 +5,7 @@ require_relative 'entities/deployment'
 require_relative 'entities/process_definition'
 require_relative 'entities/task'
 require_relative 'entities/job'
+require_relative 'entities/process_instance'
 
 require 'awesome_print'
 
@@ -19,6 +20,7 @@ DEPLOYMENTS_URI = 'repository/deployments'
 PROCESS_DEFINITIONS_URI = 'repository/process-definitions'
 TASKS_URI = 'runtime/tasks'
 JOBS_URI = 'management/jobs'
+PROCESS_INSTANCES_URI = 'runtime/process-instances'
 
 def create_url(resource_url = '', query_params = {})
   uri = URI("http://#{HOST}:#{PORT}/#{API_PATH}/#{resource_url}")
@@ -37,6 +39,7 @@ def do_http_get(url)
     http.request(req)
   end
 
+  puts "#{res.body}"
   res.body = JSON.parse(res.body)
   res
 end
@@ -63,8 +66,15 @@ def get_jobs
   Job.parse_all(res.body['data'])
 end
 
+def get_process_instances
+  res = do_http_get(PROCESS_INSTANCES_URI)
+  ProcessInstance.parse_all(res.body['data'])
+end
+
 
 # ap get_deployments
 # ap get_process_definitions
 # ap get_tasks
-ap get_jobs
+# ap get_jobs
+# ap get_process_instances
+
