@@ -8,5 +8,9 @@ get '/' do
 end
 
 get '/deployments' do
-  erb :deployments, :locals => { :deployments => get_deployments() }
+  erb :deployments, :locals => { :deployments => get_deployments }
+end
+
+get '/process-definitions' do
+  erb :process_definitions, :locals => { :process_definitions => get_process_definitions}
 end

@@ -2,6 +2,7 @@ require 'net/http'
 require 'json'
 
 require_relative 'entities/deployment'
+require_relative 'entities/process_definition'
 
 require 'awesome_print'
 
@@ -13,6 +14,7 @@ USERNAME = 'kermit'
 PASSWORD = 'kermit'
 
 DEPLOYMENTS_URI = 'repository/deployments'
+PROCESS_DEFINITIONS_URI = 'repository/process-definitions'
 
 def create_url(resource_url = '', query_params = {})
   uri = URI("http://#{HOST}:#{PORT}/#{API_PATH}/#{resource_url}")
@@ -36,8 +38,26 @@ def get_deployments
   Deployment.parse_all(res.body['data'])
 end
 
+def get_process_definitions
+  uri = create_url(PROCESS_DEFINITIONS_URI)
+
+  req = Net::HTTP::Get.new(uri.request_uri)
+  req.basic_auth(USERNAME, PASSWORD)
+  req.content_type = 'application/json'
+  req['Accept'] = 'application/json'
+  res = Net::HTTP.start(uri.hostname, uri.port) do |http|
+    http.request(req)
+  end
+
+  res.body = JSON.parse(res.body)
+
+  ProcessDefinition.parse_all(res.body['data'])
+end
+
 
 # deployments = get_deployments
 # puts "#{res.code} - #{res.message}"
 # deployments.each { |d| d.to_s }
 
+definitions = get_process_definitions
+ap definitions

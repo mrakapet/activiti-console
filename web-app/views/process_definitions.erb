@@ -1,0 +1,24 @@
+<h1>Process definitions</h1>
+
+<table border="1px">
+  <thead>
+  <tr>
+    <td>ID</td>
+    <td>NAME</td>
+    <td>CATEGORY</td>
+    <td>URL</td>
+    <td>VERSION</td>
+    <td>SUSPENDED</td>
+  </tr>
+  </thead>
+  <% for pd in process_definitions %>
+      <tr>
+        <td><%= pd.id %></td>
+        <td><%= pd.name %></td>
+        <td><%= pd.category %></td>
+        <td><%= pd.url %></td>
+        <td><%= pd.version %></td>
+        <td><%= pd.suspended %></td>
+      </tr>
+  <% end %>
+</table>
