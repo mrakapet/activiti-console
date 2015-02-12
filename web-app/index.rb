@@ -1,5 +1,5 @@
 require 'sinatra'
-require_relative '../rest-api/main'
+require_relative '../rest-api/rest-api'
 
 set :erb, :layout => :layout
 
