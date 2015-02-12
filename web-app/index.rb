@@ -18,3 +18,7 @@ end
 get '/tasks' do
   erb :tasks, :locals => { :tasks => get_tasks }
 end
+
+get '/jobs' do
+  erb :jobs, :locals => { :jobs => get_jobs }
+end

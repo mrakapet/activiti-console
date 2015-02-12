@@ -1,0 +1,24 @@
+<h1>Jobs</h1>
+
+<table border="1px">
+  <thead>
+  <tr>
+    <td>ID</td>
+    <td>URL</td>
+    <td>PROCESS INSTANCE ID</td>
+    <td>PROCESS DEFINITION ID</td>
+    <td>DUE DATE</td>
+    <td>TENANT ID</td>
+  </tr>
+  </thead>
+  <% for job in jobs %>
+      <tr>
+        <td><%= job.id %></td>
+        <td><%= job.url %></td>
+        <td><%= job.process_instance_id %></td>
+        <td><%= job.process_definition_id %></td>
+        <td><%= job.due_date %></td>
+        <td><%= job.tenant_id %></td>
+      </tr>
+  <% end %>
+</table>
