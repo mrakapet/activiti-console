@@ -7,6 +7,6 @@ get '/' do
   erb :index
 end
 
-get '/dep' do
+get '/deployments' do
   erb :deployments, :locals => { :deployments => get_deployments() }
 end
