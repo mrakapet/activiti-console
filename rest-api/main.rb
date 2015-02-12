@@ -22,8 +22,8 @@ def create_url(resource_url = '', query_params = {})
   uri
 end
 
-def get_deployments
-  uri = create_url(DEPLOYMENTS_URI)
+def do_http_get(url)
+  uri = create_url(url)
 
   req = Net::HTTP::Get.new(uri.request_uri)
   req.basic_auth(USERNAME, PASSWORD)
@@ -34,30 +34,21 @@ def get_deployments
   end
 
   res.body = JSON.parse(res.body)
+  res
+end
+
+def get_deployments
+  res = do_http_get(DEPLOYMENTS_URI)
 
   Deployment.parse_all(res.body['data'])
 end
 
 def get_process_definitions
-  uri = create_url(PROCESS_DEFINITIONS_URI)
-
-  req = Net::HTTP::Get.new(uri.request_uri)
-  req.basic_auth(USERNAME, PASSWORD)
-  req.content_type = 'application/json'
-  req['Accept'] = 'application/json'
-  res = Net::HTTP.start(uri.hostname, uri.port) do |http|
-    http.request(req)
-  end
-
-  res.body = JSON.parse(res.body)
+  res = do_http_get(PROCESS_DEFINITIONS_URI)
 
   ProcessDefinition.parse_all(res.body['data'])
 end
 
 
-# deployments = get_deployments
-# puts "#{res.code} - #{res.message}"
-# deployments.each { |d| d.to_s }
-
-definitions = get_process_definitions
-ap definitions
+ap get_deployments
+ap get_process_definitions
