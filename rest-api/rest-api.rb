@@ -7,34 +7,33 @@ require_relative 'entities/job'
 require_relative 'entities/process_instance'
 require 'awesome_print'
 
-def get_deployments
+def deployments
   res = Request.do_get(Conf::ROUTING[:deployments])
   Deployment.parse_all(res.body['data'])
 end
 
-def get_process_definitions
+def process_definitions
   res = Request.do_get(Conf::ROUTING[:process_definitions])
   ProcessDefinition.parse_all(res.body['data'])
 end
 
-def get_tasks
+def tasks
   res = Request.do_get(Conf::ROUTING[:tasks])
   Task.parse_all(res.body['data'])
 end
 
-def get_jobs
+def jobs
   res = Request.do_get(Conf::ROUTING[:jobs])
   Job.parse_all(res.body['data'])
 end
 
-def get_process_instances
+def process_instances
   res = Request.do_get(Conf::ROUTING[:process_instances])
   ProcessInstance.parse_all(res.body['data'])
 end
 
-
-# ap get_deployments
-# ap get_process_definitions
-# ap get_tasks
-# ap get_jobs
-# ap get_process_instances
+# ap deployments
+# ap process_definitions
+# ap tasks
+# ap jobs
+# ap process_instances

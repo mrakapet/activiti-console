@@ -1,8 +1,11 @@
 require 'awesome_print'
 
+# Entity class for job service.
 class Job
-
-  attr_reader :tenant_id, :execution_id, :due_date, :url, :exception_message, :process_definition_url, :execution_url, :id, :process_instance_url, :process_definition_id, :process_instance_id, :retries
+  attr_reader :tenant_id, :execution_id, :due_date, :url, :exception_message,
+              :process_definition_url, :execution_url, :id,
+              :process_instance_url, :process_definition_id,
+              :process_instance_id, :retries
 
   def initialize(data)
     @id = data['id']
@@ -20,13 +23,13 @@ class Job
   end
 
   def self.parse(hash)
-    self.new(hash)
+    new(hash)
   end
 
   def self.parse_all(list)
     jobs = []
     list.each do |d|
-      jobs << self.parse(d)
+      jobs << parse(d)
     end
     jobs
   end
@@ -34,5 +37,4 @@ class Job
   def to_s
     ap self
   end
-
 end

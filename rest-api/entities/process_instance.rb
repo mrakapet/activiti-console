@@ -1,6 +1,9 @@
 require 'awesome_print'
 
+# Entity class for process instance service.
 class ProcessInstance
+  attr_reader :tenant_id, :suspended, :business_key, :activity_id, :url,
+              :process_definition_url, :id
 
   def initialize(data)
     @id = data['id']
@@ -13,13 +16,13 @@ class ProcessInstance
   end
 
   def self.parse(hash)
-    self.new(hash)
+    new(hash)
   end
 
   def self.parse_all(list)
     instance = []
     list.each do |d|
-      instance << self.parse(d)
+      instance << parse(d)
     end
     instance
   end
@@ -27,5 +30,4 @@ class ProcessInstance
   def to_s
     ap self
   end
-
 end

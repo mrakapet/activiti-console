@@ -1,8 +1,8 @@
 require 'net/http'
 require 'json'
 
+# HTTP Request class which performs requests to Activiti REST API.
 class Request
-
   def self.create_url(resource_url = '', query_params = {})
     uri = URI("http://#{Conf::HTTP[:host]}:#{Conf::HTTP[:port]}/#{Conf::HTTP[:api_path]}/#{resource_url}")
     uri.query = URI.encode_www_form(query_params)
@@ -24,5 +24,4 @@ class Request
     res.body = JSON.parse(res.body)
     res
   end
-
 end

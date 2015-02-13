@@ -1,10 +1,13 @@
 require 'awesome_print'
 
+# Entity class for process definition service.
 class ProcessDefinition
+  attr_reader :suspended, :key, :graphical_notation_defined, :resource,
+              :version, :deployment_id, :name, :deployment_url, :url,
+              :start_form_defined, :diagram_resource, :category, :id,
+              :description
 
-  attr_reader :suspended, :key, :graphical_notation_defined, :resource, :version, :deployment_id, :name, :deployment_url, :url, :start_form_defined, :diagram_resource, :category, :id, :description
-
-  def initialize (data)
+  def initialize(data)
     @id = data['id']
     @url = data['url']
     @version = data['version']
@@ -22,13 +25,13 @@ class ProcessDefinition
   end
 
   def self.parse(hash)
-    self.new(hash)
+    new(hash)
   end
 
   def self.parse_all(list)
     definitions = []
     list.each do |d|
-      definitions << self.parse(d)
+      definitions << parse(d)
     end
     definitions
   end
