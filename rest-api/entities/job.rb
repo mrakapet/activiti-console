@@ -1,4 +1,5 @@
 require 'awesome_print'
+require_relative '../entity_parser'
 
 # Entity class for job service.
 class Job
@@ -22,16 +23,8 @@ class Job
     @tenant_id = data['tenantId']
   end
 
-  def self.parse(hash)
-    new(hash)
-  end
-
-  def self.parse_all(list)
-    jobs = []
-    list.each do |d|
-      jobs << parse(d)
-    end
-    jobs
+  def self.parse(data)
+    EntityParser.parse_entity(data, self)
   end
 
   def to_s

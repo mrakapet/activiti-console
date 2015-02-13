@@ -1,4 +1,5 @@
 require 'awesome_print'
+require_relative '../entity_parser'
 
 # Entity class for process instance service.
 class ProcessInstance
@@ -15,16 +16,8 @@ class ProcessInstance
     @tenant_id = data['tenantId']
   end
 
-  def self.parse(hash)
-    new(hash)
-  end
-
-  def self.parse_all(list)
-    instance = []
-    list.each do |d|
-      instance << parse(d)
-    end
-    instance
+  def self.parse(data)
+    EntityParser.parse_entity(data, self)
   end
 
   def to_s

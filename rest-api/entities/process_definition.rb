@@ -1,4 +1,5 @@
 require 'awesome_print'
+require_relative '../entity_parser'
 
 # Entity class for process definition service.
 class ProcessDefinition
@@ -24,16 +25,8 @@ class ProcessDefinition
     @start_form_defined = data['startFormDefined']
   end
 
-  def self.parse(hash)
-    new(hash)
-  end
-
-  def self.parse_all(list)
-    definitions = []
-    list.each do |d|
-      definitions << parse(d)
-    end
-    definitions
+  def self.parse(data)
+    EntityParser.parse_entity(data, self)
   end
 
   def to_s

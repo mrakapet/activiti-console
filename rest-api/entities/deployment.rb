@@ -1,4 +1,5 @@
 require 'awesome_print'
+require_relative '../entity_parser'
 
 # Entity class for deployment service.
 class Deployment
@@ -13,16 +14,8 @@ class Deployment
     @tenant_id = data['tenantId']
   end
 
-  def self.parse(hash)
-    Deployment.new(hash)
-  end
-
-  def self.parse_all(list)
-    deployments = []
-    list.each do |d|
-      deployments << Deployment.parse(d)
-    end
-    deployments
+  def self.parse(data)
+    EntityParser.parse_entity(data, self)
   end
 
   def to_s

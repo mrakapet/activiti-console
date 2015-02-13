@@ -9,31 +9,31 @@ require 'awesome_print'
 
 def deployments
   res = Request.do_get(Conf::ROUTING[:deployments])
-  Deployment.parse_all(res.body['data'])
+  Deployment.parse(res.body['data'])
 end
 
 def process_definitions
   res = Request.do_get(Conf::ROUTING[:process_definitions])
-  ProcessDefinition.parse_all(res.body['data'])
+  ProcessDefinition.parse(res.body['data'])
 end
 
 def tasks
   res = Request.do_get(Conf::ROUTING[:tasks])
-  Task.parse_all(res.body['data'])
+  Task.parse(res.body['data'])
 end
 
 def jobs
   res = Request.do_get(Conf::ROUTING[:jobs])
-  Job.parse_all(res.body['data'])
+  Job.parse(res.body['data'])
 end
 
 def process_instances
   res = Request.do_get(Conf::ROUTING[:process_instances])
-  ProcessInstance.parse_all(res.body['data'])
+  ProcessInstance.parse(res.body['data'])
 end
 
-# ap deployments
-# ap process_definitions
-# ap tasks
-# ap jobs
-# ap process_instances
+ap deployments
+ap process_definitions
+ap tasks
+ap jobs
+ap process_instances

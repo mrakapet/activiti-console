@@ -1,4 +1,5 @@
 require 'awesome_print'
+require_relative '../entity_parser'
 
 # Entity class for task service.
 class Task
@@ -27,16 +28,8 @@ class Task
     @tenant_id = data['tenantId']
   end
 
-  def self.parse(hash)
-    new(hash)
-  end
-
-  def self.parse_all(list)
-    tasks = []
-    list.each do |d|
-      tasks << parse(d)
-    end
-    tasks
+  def self.parse(data)
+    EntityParser.parse_entity(data, self)
   end
 
   def to_s
