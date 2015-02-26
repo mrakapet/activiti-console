@@ -1,16 +1,18 @@
 require 'httparty'
-require 'json'
 
 require_relative 'activiti_exception'
 
+# Base class for all services of Activiti server.
 class ActivitiService
   include HTTParty
 
+  # default HTTP headers
   headers({
      'Content-Type' => 'application/json',
      'Accept' => 'application/json'
   })
 
+  # default query parameters
   default_params({
     # sort: '',   # request specific
     # order: asc, # asc / desc
@@ -23,26 +25,53 @@ class ActivitiService
     self.class.basic_auth(credentials[:username], credentials[:password])
   end
 
-  def perform_request(method, url, options = {}, desired_status_code = 200)
+  # HTTP GET
+  def get(url, options={}, desired_status_code = 200)
+    perform_request(:get, url, options, desired_status_code)
+  end
+
+  # HTTP POST
+  def post(url, options={}, desired_status_code = 201)
+    perform_request(:post, url, options, desired_status_code)
+  end
+
+  # HTTP PUT
+  def put(url, options={}, desired_status_code = 200)
+    perform_request(:put, url, options, desired_status_code)
+  end
+
+  # HTTP DELETE
+  def delete(url, options={}, desired_status_code = 204)
+    perform_request(:delete, url, options, desired_status_code)
+  end
+
+  protected
+
+  # Perform chosen request type.
+  def perform_request(http_method, url, options = {}, desired_status_code)
+    # do request
     begin
-      response = self.class.send(method, url, options)
-      response.body = JSON.parse(response.body) # can raise JSON::JSONError
-        # rescue JSON::JSONError => json_error
-        #     fail 'Invalid response format.'
-    rescue Exception => e
-      puts e.message
-      fail 'Request failed.'
+      response = self.class.send(http_method, url, options)
+      parsed_response = response.parsed_response
+    rescue => e # catch connection or other technical errors
+      fail 'Request failed: ' << e.message
     end
 
+    # response.class is now HTTParty::Response
+
+    # catch standard HTTP errors
+    unless parsed_response.is_a?(Hash)
+      raise "HTTP Error #{response.code}" # if HTML error reason can be found in the title of HTML page
+    end
+
+    # catch Activiti exceptions
     if response.code != desired_status_code
-      if response.body['statusCode'] && response.body['errorMessage']
-        raise ActivitiException.new(response.body['statusCode'], response.body['errorMessage'])
-      else
-        raise 'Invalid format of Activiti error response.' << response.body.to_s
-      end
+      raise ActivitiException, "HTTP Error #{response.code} - #{response['message']} - #{response['exception']}"
     end
 
-    response
+    # TODO Parse Hash into entity / collection of entities
+
+    parsed_response
   end
 
 end

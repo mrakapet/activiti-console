@@ -9,11 +9,11 @@ class RepositoryService < ActivitiService
   end
 
   def process_definitions
-    perform_request(:get,  '/process-definitions')
+    get('/process-definitions')
   end
 
   def process_definition(process_definition_id)
-    perform_request(:get, "/process-definitions/#{process_definition_id}")
+    get("/process-definitions/#{process_definition_id}")
   end
 
 end
