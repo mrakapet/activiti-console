@@ -1,3 +1,0 @@
-class ActivitiException  < StandardError
-
-end
