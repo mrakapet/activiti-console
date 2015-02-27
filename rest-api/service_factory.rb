@@ -13,6 +13,14 @@ module ActivitiRestApi
       create_service(RepositoryService)
     end
 
+    def create_runtime_service
+      create_service(RuntimeService)
+    end
+
+    def create_management_service
+      create_service(ManagementService)
+    end
+
     protected
   
     def create_service(service_name)

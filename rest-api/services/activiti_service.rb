@@ -4,6 +4,8 @@ module ActivitiRestApi
   class ActivitiService
     include HTTParty
 
+    SERVICE_URI_SUFFIX = '/'
+
     # default HTTP headers
     headers({
        'Content-Type' => 'application/json',
@@ -17,6 +19,8 @@ module ActivitiRestApi
       # start: 0,   # 0
       # size: 10,   # 10
     })
+
+    format :json
 
     def initialize(base_uri, credentials)
       self.class.base_uri(base_uri)
@@ -49,7 +53,8 @@ module ActivitiRestApi
     def perform_request(http_method, url, options = {}, desired_status_code)
       # do request
       begin
-        response = self.class.send(http_method, url, options)
+        request_uri = "#{self.class::SERVICE_URI_SUFFIX}/#{url}".gsub(/[\/]+/, '/')
+        response = self.class.send(http_method, request_uri, options)
         parsed_response = response.parsed_response
       rescue => e # catch connection or other technical errors
         fail 'Request failed: ' << e.message
@@ -59,6 +64,7 @@ module ActivitiRestApi
 
       # catch standard HTTP errors
       unless parsed_response.is_a?(Hash)
+        ap response.request
         raise "HTTP Error #{response.code}" # if HTML error reason can be found in the title of HTML page
       end
 
