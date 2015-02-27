@@ -2,7 +2,8 @@
 class EntityParser
   def self.parse_entity(data, class_name)
     entities = []
-    Array(data).each do |entity_data|
+    data = [data] unless data.is_a?(Array)
+    data.each do |entity_data|
       entities << class_name.new(entity_data)
     end
     entities
