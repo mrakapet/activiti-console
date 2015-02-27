@@ -1,7 +1,7 @@
 require 'sinatra'
 
 require_relative '../rest-api/activiti_rest_api'
-require_relative '../rest-api/config/conf'
+require_relative 'config/conf'
 
 base_path = "http://#{Conf::HTTP[:host]}:#{Conf::HTTP[:port]}/#{Conf::HTTP[:api_path]}/"
 service_factory = ActivitiRestApi::ServiceFactory.new(base_path, Conf::SECURITY)

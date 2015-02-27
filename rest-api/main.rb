@@ -1,4 +1,3 @@
-require_relative 'config/conf'
 require_relative 'activiti_rest_api'
 require_relative 'entities/process_definition'
 
@@ -8,9 +7,7 @@ opt = {
     }
 }
 
-base_path = "http://#{Conf::HTTP[:host]}:#{Conf::HTTP[:port]}/#{Conf::HTTP[:api_path]}/"
-
-service_factory = ActivitiRestApi::ServiceFactory.new(base_path, Conf::SECURITY)
+service_factory = ActivitiRestApi::ServiceFactory.new('http://localhost:8080/activiti-rest/service/', {username: 'kermit', password: 'kermit'})
 repository_service = service_factory.create_repository_service
 runtime_service = service_factory.create_runtime_service
 management_service = service_factory.create_management_service
