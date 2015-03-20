@@ -7,7 +7,6 @@ require_relative 'services/repository_service'
 require_relative 'services/runtime_service'
 require_relative 'services/management_service'
 
-# require_relative 'exceptions/activiti_exception'
 require_relative 'errors'
 
 require_relative 'entity_parser'
