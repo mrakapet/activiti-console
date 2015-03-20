@@ -28,23 +28,23 @@ module ActivitiRestApi
     end
 
     # HTTP GET
-    def get(url, options={}, desired_status_code = 200)
-      perform_request(:get, url, options, desired_status_code)
+    def get(url, options={})
+      perform_request(:get, url, options)
     end
 
     # HTTP POST
-    def post(url, options={}, desired_status_code = 201)
-      perform_request(:post, url, options, desired_status_code)
+    def post(url, options={})
+      perform_request(:post, url, options)
     end
 
     # HTTP PUT
-    def put(url, options={}, desired_status_code = 200)
-      perform_request(:put, url, options, desired_status_code)
+    def put(url, options={})
+      perform_request(:put, url, options)
     end
 
     # HTTP DELETE
-    def delete(url, options={}, desired_status_code = 204)
-      perform_request(:delete, url, options, desired_status_code)
+    def delete(url, options={})
+      perform_request(:delete, url, options)
     end
 
     protected
@@ -55,27 +55,37 @@ module ActivitiRestApi
       begin
         request_uri = "#{self.class::SERVICE_URI_SUFFIX}/#{url}".gsub(/[\/]+/, '/')
         response = self.class.send(http_method, request_uri, options)
-        parsed_response = response.parsed_response
-      rescue => e # catch connection or other technical errors
-        fail 'Request failed: ' << e.message
+        response_body = response.parsed_response
+      rescue JSON::JSONError # catches errors when parsing response
+        response_body = nil
+      rescue HTTParty::Error => e # catches connection and other technical errors
+        raise Errors::ResponseError.new(e.message, nil, e)
       end
 
       # response.class is now HTTParty::Response
 
-      # catch standard HTTP errors
-      unless parsed_response.is_a?(Hash)
-        ap response.request
-        raise "HTTP Error #{response.code}" # if HTML error reason can be found in the title of HTML page
+      # check HTTP and format errors
+      unless response_body.is_a?(Hash)  # its not valid JSON response
+        if error_code?(response.code) # HTTP error occurred
+          raise Errors::ResponseError.new(response.response.message, response.code)
+        else
+          raise Errors::UnsupportedFormatError.new('JSON response expected.', response.code)
+        end
       end
 
-      # catch Activiti exceptions
-      if response.code != desired_status_code
-        raise ActivitiException, "HTTP Error #{response.code} - #{response['message']} - #{response['exception']}"
+      # check Activiti engine errors
+      if error_code?(response.code)
+        raise Errors::OperationFailedError.new(response_body['message'], response_body['exception'], response.code)
       end
 
       # TODO Parse Hash into entity / collection of entities
 
-      parsed_response
+      response_body
+    end
+
+    # Check if given HTTP status code is a HTTP error code.
+    def error_code?(status_code)
+      !(200...300).include?(status_code)
     end
 
   end
