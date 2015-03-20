@@ -1,5 +1,7 @@
 require 'httparty'
 require 'awesome_print'
+require 'active_support/core_ext/array'
+require 'active_support/core_ext/string'
 
 require_relative 'service_factory'
 require_relative 'services/activiti_service'

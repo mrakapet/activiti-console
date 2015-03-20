@@ -9,12 +9,9 @@ class EntityParser
   end
 
   def self.parse_all(data, class_name)
-    entities = []
-    data = [data] unless data.is_a?(Array)
-    data.each do |entity_data|
-      entities << self.parse_one(entity_data, class_name)
+    Array.wrap(data).map do |entity_data|
+      self.parse_one(entity_data, class_name)
     end
-    entities
   end
 
 end
