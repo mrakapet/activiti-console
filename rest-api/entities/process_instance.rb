@@ -1,27 +1,15 @@
 module ActivitiRestApi
 
   # Entity class for process instance service.
-  class ProcessInstance
-    attr_reader :tenant_id, :suspended, :business_key, :activity_id, :url,
-                :process_definition_url, :id
+  class ProcessInstance < Entity
 
-    def initialize(data)
-      @id = data['id']
-      @url = data['url']
-      @business_key = data['businessKey']
-      @suspended = data['suspended']
-      @process_definition_url = data['processDefinitionUrl']
-      @activity_id = data['activityId']
-      @tenant_id = data['tenantId']
-    end
+    attribute :id, Integer
+    attribute :url, String
+    attribute :business_key, String
+    attribute :suspended, Boolean
+    attribute :process_definition_url, String
+    attribute :activity_id, String
+    attribute :tenant_id, String
 
-    def self.parse(data)
-      EntityParser.parse_entity(data, self)
-    end
-
-    def to_s
-      ap self
-    end
-  end
-
-end
+  end # ProcessInstance
+end # ActivitiRestApi

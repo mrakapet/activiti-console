@@ -1,39 +1,25 @@
 module ActivitiRestApi
 
   # Entity class for task service.
-  class Task
-    attr_reader :tenant_id, :suspended, :execution, :task_definition_key,
-                :delegation_state, :name, :process_definition, :priority,
-                :assignee, :create_time, :due_date, :url,
-                :process_instance, :id, :description, :parent_task, :owner
+  class Task < Entity
 
-    def initialize(data)
-      @assignee = data['assignee']
-      @create_time = data['createTime']
-      @delegation_state = data['delegationState']
-      @description = data['description']
-      @due_date = data['dueDate']
-      @execution = data['execution']
-      @id = data['id']
-      @name = data['name']
-      @owner = data['owner']
-      @parent_task = data['parentTask']
-      @priority = data['priority']
-      @process_definition = data['processDefinition']
-      @process_instance = data['processInstance']
-      @suspended = data['suspended']
-      @task_definition_key = data['taskDefinitionKey']
-      @url = data['url']
-      @tenant_id = data['tenantId']
-    end
+    attribute :assignee, String
+    attribute :create_time, DateTime
+    attribute :delegation_state, String
+    attribute :description, String
+    attribute :due_date, DateTime
+    attribute :execution, String
+    attribute :id, Integer
+    attribute :name, String
+    attribute :owner, String
+    attribute :parent_task, String
+    attribute :priority, Integer
+    attribute :process_definition, String
+    attribute :process_instance, String
+    attribute :suspended, Boolean
+    attribute :task_definition_key, String
+    attribute :url, String
+    attribute :tenant_id, String
 
-    def self.parse(data)
-      EntityParser.parse_entity(data, self)
-    end
-
-    def to_s
-      ap self
-    end
-  end
-
-end
+  end # Task
+end # ActivitiRestApi

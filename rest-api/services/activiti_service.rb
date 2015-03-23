@@ -80,7 +80,9 @@ module ActivitiRestApi
 
       # TODO Parse Hash into entity / collection of entities
 
-      response_body
+      return nil if response.body.empty?
+
+      underscore(response_body)
     end
 
     # Check if given HTTP status code is a HTTP error code.
@@ -88,6 +90,22 @@ module ActivitiRestApi
       !(200...300).include?(status_code)
     end
 
-  end
+    # Transforms all keys of given Hash/Array from camelCase to snake_case Strings
+    def underscore(data)
+      if data.is_a?(Array)
+        return data.map do |item|
+          underscore(item)
+        end
+      end
+      if data.is_a?(Hash)
+        hash = {}
+        data.each do |key, value|
+          hash[key.to_s.underscore] = underscore(value)
+        end
+        return hash
+      end
+      data
+    end
 
-end
+  end # ActivitiService
+end # ActivitiRestApi

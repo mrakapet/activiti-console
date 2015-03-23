@@ -1,25 +1,14 @@
 module ActivitiRestApi
 
   # Entity class for deployment service.
-  class Deployment
-    attr_accessor :tenant_id, :name, :url, :category, :id, :deployment_time
+  class Deployment < Entity
 
-    def initialize(data)
-      @id = data['id']
-      @name = data['name']
-      @deployment_time = data['deploymentTime']
-      @category = data['category']
-      @url = data['url']
-      @tenant_id = data['tenantId']
-    end
+    attribute :id, Integer
+    attribute :name, String
+    attribute :deployment_time, DateTime
+    attribute :category, String
+    attribute :url, String
+    attribute :tenant_id, String
 
-    def self.parse(data)
-      EntityParser.parse_entity(data, self)
-    end
-
-    def to_s
-      ap self
-    end
-  end
-
-end
+  end # Deployment
+end # ActivitiRestApi
