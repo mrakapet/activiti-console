@@ -6,14 +6,14 @@ module ActivitiRestApi
     include Enumerable
     attr_reader :sort, :total, :order, :start, :size
 
-    def initialize(response_data, content)
+    def initialize(response_data, class_name)
       @total = response_data['total']
       @start = response_data['start']
       @size = response_data['size']
       @sort = response_data['sort']
       @order = response_data['order']
-      @data = Array.wrap(response_data['data']).map do |item|
-        EntityParser.parse_entity(item, content)
+      @data = Array.wrap(response_data['data']).map do |entity_data|
+        class_name.new(entity_data)
       end
     end
 

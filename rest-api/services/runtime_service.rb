@@ -10,12 +10,12 @@ module ActivitiRestApi
 
     def tasks
       result = get('/tasks')
-      EntityParser.parse_collection(result, Task)
+      PaginatedArray.new(result, Task)
     end
 
     def process_instances
       result = get('/process-instances')
-      EntityParser.parse_collection(result, ProcessInstance)
+      PaginatedArray.new(result, ProcessInstance)
     end
 
   end

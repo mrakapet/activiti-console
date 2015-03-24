@@ -10,7 +10,7 @@ module ActivitiRestApi
 
     def jobs
       result = get('/jobs')
-      EntityParser.parse_collection(result, Job)
+      PaginatedArray.new(result, Job)
     end
 
   end
