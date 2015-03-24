@@ -10,7 +10,7 @@ module ActivitiRestApi
 
     def jobs
       result = get('/jobs')
-      EntityParser.parse_all(result['data'], Job)
+      EntityParser.parse_collection(result, Job)
     end
 
   end

@@ -10,17 +10,17 @@ module ActivitiRestApi
 
     def deployments
       result = get('/deployments')
-      EntityParser.parse_all(result['data'], Deployment)
+      EntityParser.parse_collection(result, Deployment)
     end
 
     def process_definitions
       result = get('/process-definitions')
-      EntityParser.parse_all(result['data'], ProcessDefinition)
+      EntityParser.parse_collection(result, ProcessDefinition)
     end
 
     def process_definition(process_definition_id)
       result = get("/process-definitions/#{process_definition_id}")
-      EntityParser.parse_one(result, ProcessDefinition)
+      EntityParser.parse_entity(result, ProcessDefinition)
     end
 
   end

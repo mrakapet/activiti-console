@@ -50,7 +50,7 @@ module ActivitiRestApi
     protected
 
     # Perform chosen request type.
-    def perform_request(http_method, url, options = {}, desired_status_code)
+    def perform_request(http_method, url, options = {})
       # do request
       begin
         request_uri = "#{self.class::SERVICE_URI_SUFFIX}/#{url}".gsub(/[\/]+/, '/')
@@ -78,10 +78,10 @@ module ActivitiRestApi
         raise Errors::OperationFailedError.new(response_body['message'], response_body['exception'], response.code)
       end
 
-      # TODO Parse Hash into entity / collection of entities
-
+      # if response body is empty -> return nil
       return nil if response.body.empty?
 
+      # return result as a hash in common Ruby format
       underscore(response_body)
     end
 
