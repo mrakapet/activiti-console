@@ -8,8 +8,8 @@ module ActivitiRestApi
       super(base_uri, credentials)
     end
 
-    def deployments
-      result = get('/deployments')
+    def deployments(query = {})
+      result = get('/deployments', query)
       PaginatedArray.new(result, Deployment)
     end
 

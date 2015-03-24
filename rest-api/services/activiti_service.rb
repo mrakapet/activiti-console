@@ -50,11 +50,13 @@ module ActivitiRestApi
     protected
 
     # Perform chosen request type.
-    def perform_request(http_method, url, options = {})
+    def perform_request(http_method, url, query_parameters)
+      request_uri = "#{self.class::SERVICE_URI_SUFFIX}/#{url}".gsub(/[\/]+/, '/')
+      query_parameters = { query: query_parameters }
+
       # do request
       begin
-        request_uri = "#{self.class::SERVICE_URI_SUFFIX}/#{url}".gsub(/[\/]+/, '/')
-        response = self.class.send(http_method, request_uri, options)
+        response = self.class.send(http_method, request_uri, query_parameters)
         response_body = response.parsed_response
       rescue JSON::JSONError # catches errors when parsing response
         response_body = nil
@@ -80,6 +82,8 @@ module ActivitiRestApi
 
       # if response body is empty -> return nil
       return nil if response.body.empty?
+
+      ap response_body
 
       # return result as a hash in common Ruby format
       underscore(response_body)
