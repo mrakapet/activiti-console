@@ -2,7 +2,7 @@ module ActivitiRestApi
 
   # Base class for all services of Activiti server.
   class ActivitiService
-    include HTTParty
+    include HTTMultiParty
 
     SERVICE_URI_SUFFIX = '/'
 
